@@ -27,13 +27,17 @@ function addQuote() {
         return;
     }
 
-    const newQuote = {
-        text: textInput.value,
-        category: categoryInput.value
-    };
+   
 
     // Add new quote to the quotes array
-    quotes.push(newQuote);
+    function createAddQuoteForm(){
+        const newQuote = {
+            text: textInput.value,
+            category: categoryInput.value
+        };
+        quotes.push(newQuote);
+    }
+    
 
     // Clear the form inputs
     textInput.value = '';

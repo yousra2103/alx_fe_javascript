@@ -79,7 +79,34 @@ function populateCategoriesDropdown() {
         option.innerText = category;
         categoryDropdown.appendChild(option);
     });
+
+    // Restore the last selected category from localStorage
+    const savedCategory = localStorage.getItem('selectedCategory');
+    if (savedCategory) {
+        categoryDropdown.value = savedCategory;
+        filterQuotes(); // Filter quotes based on the saved category
 }
+
+
+
+// Function to filter quotes based on selected category
+function filterQuotes() {
+    const selectedCategory = document.getElementById('categoryDropdown').value;
+    const quotesContainer = document.getElementById('quotesContainer');
+    quotesContainer.innerHTML = ''; // Clear existing quotes
+
+    const filteredQuotes = selectedCategory
+        ? quotes.filter(quote => quote.category === selectedCategory)
+        : quotes;
+
+    filteredQuotes.forEach(quote => {
+        const quoteElement = document.createElement('div');
+        quoteElement.innerText = `"${quote.text}" - Category: ${quote.category}`;
+        quotesContainer.appendChild(quoteElement);
+    });
+}
+  // Save the selected category to localStorage
+  localStorage.setItem('selectedCategory', selectedCategory);
 
 
 // Function to export quotes to a JSON file

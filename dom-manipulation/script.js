@@ -67,6 +67,19 @@ function loadQuotes() {
     showRandomQuote(); // Optionally display the newly added quote
 }
 
+// Function to populate categories dropdown
+function populateCategoriesDropdown() {
+    const categoryFilter = [...new Set(quotes.map(quote => quote.category))];
+    const categoryDropdown = document.getElementById('categoryDropdown');
+    categoryDropdown.innerHTML = ''; // Clear existing options
+
+    categoryFilter.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category;
+        option.innerText = category;
+        categoryDropdown.appendChild(option);
+    });
+}
 
 
 // Function to export quotes to a JSON file

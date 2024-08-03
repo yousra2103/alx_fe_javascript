@@ -1,5 +1,5 @@
 // Array to store quotes
-let quotes = [
+let quotes = JSON.parse(localStorage.getItem('quotes')) ||[
     { text: "The only limit to our realization of tomorrow is our doubts of today.", category: "Inspiration" },
     { text: "Do not wait to strike till the iron is hot; but make it hot by striking.", category: "Motivation" },
     { text: "The future belongs to those who believe in the beauty of their dreams.", category: "Dreams" }
@@ -36,6 +36,9 @@ function addQuote() {
             category: categoryInput.value
         };
         quotes.push(newQuote);
+   
+ // Save the updated quotes array to localStorage
+ localStorage.setItem('quotes', JSON.stringify(quotes));
 
          // Update the DOM with the new quote
     const quotesContainer = document.getElementById('quotesContainer');
@@ -50,6 +53,17 @@ function addQuote() {
     categoryInput.value = '';
 
     alert('Quote added successfully!');
+
+// Function to load all quotes from the array into the DOM
+function loadQuotes() {
+    const quotesContainer = document.getElementById('quotesContainer');
+    quotesContainer.innerHTML = ''; // Clear existing quotes
+    quotes.forEach(quote => {
+        const quoteElement = document.createElement('div');
+        quoteElement.innerText = `"${quote.text}" - Category: ${quote.category}`;
+        quotesContainer.appendChild(quoteElement);
+    });
+}
     showRandomQuote(); // Optionally display the newly added quote
 }
 

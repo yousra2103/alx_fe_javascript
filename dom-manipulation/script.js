@@ -76,7 +76,7 @@ function populateCategoriesDropdown() {
     categoryFilter.forEach(category => {
         const option = document.createElement('option');
         option.value = category;
-        option.innerText = category;
+        option.textContent = category;
         categoryDropdown.appendChild(option);
     });
 

@@ -12,7 +12,7 @@ function displayRandomQuote() {
 
     // Display the quote on the web page
     const quoteDisplay = document.getElementById('quoteDisplay');
-    quoteDisplay.innerText = `"${randomQuote.text}" - Category: ${randomQuote.category}`;
+    quoteDisplay.innerHTML = `"${randomQuote.text}" - Category: ${randomQuote.category}`;
 }
 
 

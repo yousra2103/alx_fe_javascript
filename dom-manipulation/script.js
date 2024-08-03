@@ -36,6 +36,12 @@ function addQuote() {
             category: categoryInput.value
         };
         quotes.push(newQuote);
+
+         // Update the DOM with the new quote
+    const quotesContainer = document.getElementById('quotesContainer');
+    const quoteElement = document.createElement('div');
+    quoteElement.innerText = `"${newQuote.text}" - Category: ${newQuote.category}`;
+    quotesContainer.appendChild(quoteElement);
     }
     
 

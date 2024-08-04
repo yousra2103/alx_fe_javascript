@@ -223,7 +223,7 @@ function importFromJsonFile(event) {
   }
 
 // Function to show notifications
-function showNotification(message) {
+function showNotification("Quotes synced with server!") {
     const notification = document.getElementById('notification');
     notification.innerText = message;
     notification.style.display = 'block';

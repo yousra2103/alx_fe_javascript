@@ -22,6 +22,40 @@ async function fetchQuotesFromServer() {
 
 
 
+// Function to synchronize quotes with the server
+async function syncQuotes() {
+    try {
+        const response = await fetch(API_URL);
+        const data = await response.json();
+        const fetchedQuotes = data.slice(0, 10).map(item => ({
+            text: item.title,
+            category: 'General'
+        }));
+
+        // Check for discrepancies and update local quotes if needed
+        let hasDiscrepancies = false;
+        if (quotes.length !== fetchedQuotes.length) {
+            hasDiscrepancies = true;
+        } else {
+            for (let i = 0; i < quotes.length; i++) {
+                if (quotes[i].text !== fetchedQuotes[i].text || quotes[i].category !== fetchedQuotes[i].category) {
+                    hasDiscrepancies = true;
+                    break;
+                }
+            }
+        }
+
+        if (hasDiscrepancies) {
+            quotes = fetchedQuotes;
+            localStorage.setItem('quotes', JSON.stringify(quotes));
+            loadQuotes();
+            populateCategoriesDropdown();
+        }
+    } catch (error) {
+        console.error('Error syncing quotes:', error);
+    }
+}
+
 
 
 
@@ -191,7 +225,10 @@ function importFromJsonFile(event) {
 
 
 
-
+// Function to periodically fetch data from the API
+function startPeriodicFetching() {
+    setInterval(fetchQuotesFromServer, 60000); // Fetch quotes every 60 seconds
+}
 
 // Adding event listeners to buttons
 document.getElementById('showQuoteButton').addEventListener('click', showRandomQuote);
@@ -200,4 +237,4 @@ document.getElementById('exportQuotesButton').addEventListener('click', exportTo
 // Initial setup
 document.addEventListener('DOMContentLoaded', () => {
     showRandomQuote();
-});
+})

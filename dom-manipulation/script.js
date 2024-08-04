@@ -1,9 +1,32 @@
+const API_URL = 'https://jsonplaceholder.typicode.com/posts'; // Mock API endpoint
+
+// Array to store quotes, initially empty and populated from the API
+let quotes = [];
+// Function to fetch initial data from the API
+async function fetchQuotesFromServer() {
+    try {
+        const response = await fetch(API_URL);
+        const data = await response.json();
+        quotes = data.slice(0, 10).map(item => ({
+            text: item.title,
+            category: 'General'
+        }));
+        localStorage.setItem('quotes', JSON.stringify(quotes)); // Save fetched quotes to localStorage
+        loadQuotes();
+        populateCategoriesDropdown();
+    } catch (error) {
+        console.error('Error fetching quotes:', error);
+    }
+}
+
+
+
+
+
+
+
 // Array to store quotes
-let quotes = JSON.parse(localStorage.getItem('quotes')) ||[
-    { text: "The only limit to our realization of tomorrow is our doubts of today.", category: "Inspiration" },
-    { text: "Do not wait to strike till the iron is hot; but make it hot by striking.", category: "Motivation" },
-    { text: "The future belongs to those who believe in the beauty of their dreams.", category: "Dreams" }
-];
+
 
 function displayRandomQuote() {
     // Get a random index
@@ -35,6 +58,35 @@ function addQuote() {
             text: textInput.value,
             category: categoryInput.value
         };
+
+        try {
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newQuote)
+            });
+    
+            if (response.ok) {
+                const data = await response.json();
+                quotes.push({
+                    text: data.text || newQuote.text,
+                    category: data.category || newQuote.category
+                });
+    
+                localStorage.setItem('quotes', JSON.stringify(quotes));
+                loadQuotes();
+                populateCategoriesDropdown();
+                textInput.value = '';
+                categoryInput.value = '';
+                alert('Quote added successfully!');
+            } else {
+                alert('Failed to add quote');
+            }
+        } catch (error) {
+            console.error('Error adding quote:', error);
+        }
         quotes.push(newQuote);
    
  // Save the updated quotes array to localStorage

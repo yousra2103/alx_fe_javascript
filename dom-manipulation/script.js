@@ -222,7 +222,15 @@ function importFromJsonFile(event) {
     fileReader.readAsText(event.target.files[0]);
   }
 
-
+// Function to show notifications
+function showNotification(message) {
+    const notification = document.getElementById('notification');
+    notification.innerText = message;
+    notification.style.display = 'block';
+    setTimeout(() => {
+        notification.style.display = 'none';
+    }, 3000); // Hide notification after 3 seconds
+}
 
 
 // Function to periodically fetch data from the API
